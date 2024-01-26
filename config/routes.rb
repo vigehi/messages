@@ -1,6 +1,7 @@
+# config/routes.rb
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  resources :messages, only: [:index, :new, :create]
+  get 'messages/send_message', to: 'messages#send_message'
+  get 'messages/receive_messages', to: 'messages#receive_messages'
+  root 'messages#index'
 end

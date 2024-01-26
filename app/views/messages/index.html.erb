@@ -1,0 +1,12 @@
+<!-- app/views/messages/index.html.erb -->
+<h1>Incoming Messages</h1>
+
+<% @messages.each do |message| %>
+  <div>
+    <p><strong>Customer ID:</strong> <%= message.customer_id %></p>
+    <p><strong>Timestamp:</strong> <%= message.timestamp %></p>
+    <p><strong>Content:</strong> <%= message.content %></p>
+    <p><strong>Agent Response:</strong> <%= message.agent_response %></p>
+  </div>
+  <hr>
+<% end %>

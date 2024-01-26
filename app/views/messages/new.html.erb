@@ -1,0 +1,18 @@
+<!-- app/views/messages/new.html.erb -->
+<h1>Respond to Message</h1>
+
+<%= form_with(model: Message.new, url: messages_path, method: :post) do |form| %>
+  <div>
+    <%= form.label :customer_id %>
+    <%= form.text_field :customer_id %>
+  </div>
+
+  <div>
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div>
+    <%= form.submit "Send Response" %>
+  </div>
+<% end %>

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer_id: 1
+  timestamp: 2024-01-26 12:04:46
+  content: MyText
+  agent_response: MyText
+
+two:
+  customer_id: 1
+  timestamp: 2024-01-26 12:04:46
+  content: MyText
+  agent_response: MyText
