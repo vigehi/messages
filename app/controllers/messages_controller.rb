@@ -42,12 +42,14 @@ class MessagesController < ApplicationController
     end
   end
 
-  def destroy
-    if current_user.id == @message.user_id
-      @message.destroy
-      redirect_to messages_path, notice: 'Message was successfully deleted.'
+  def update
+    @message = Message.find(params[:id])
+    if @message.update(message_params)
+      # Handle successful update
+      render json: { message: 'Message successfully updated' }, status: :ok
     else
-      redirect_to messages_path, alert: "You are not authorized to delete this message."
+      # Handle update failure
+      render json: { errors: @message.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

@@ -120,6 +120,15 @@
         }
       });
     }
+
+    function openPopup(messageId) {
+      document.getElementById("message-id").value = messageId;
+      document.getElementById("reply-popup").style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("reply-popup").style.display = "none";
+    }
   </script>
 </body>
 </html>
