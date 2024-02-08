@@ -1,12 +1,125 @@
-<!-- app/views/messages/index.html.erb -->
-<h1>Incoming Messages</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Incoming Messages</title>
+  <%= stylesheet_link_tag 'styles' %> 
+  <style>
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
 
-<% @messages.each do |message| %>
-  <div>
-    <p><strong>Customer ID:</strong> <%= message.customer_id %></p>
-    <p><strong>Timestamp:</strong> <%= message.timestamp %></p>
-    <p><strong>Content:</strong> <%= message.content %></p>
-    <p><strong>Agent Response:</strong> <%= message.agent_response %></p>
+    .pagination li {
+      margin: 0 5px;
+      list-style: none;
+    }
+
+    .pagination li a {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 1px solid #007bff;
+      color: #007bff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .pagination li.active a,
+    .pagination li a:hover {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Messages</h1>
+
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search messages...">
+    <button onclick="searchMessages()">Search</button>
   </div>
-  <hr>
-<% end %>
+
+  <div class="tabs">
+    <button class="tablinks active" onclick="openTab(event, 'incoming')">Incoming Messages</button>
+    <button class="tablinks" onclick="openTab(event, 'agent')">Messages with Agent Response</button>
+  </div>
+
+  <div id="incoming" class="tabcontent" style="display: block;">
+  <div class="messages-container">
+    <% @incoming_messages.each do |message| %>
+      <div class="message">
+        <p><strong>Customer ID:</strong> <%= message.customer_id %></p>
+        <p><strong>Timestamp:</strong> <%= message.timestamp %></p>
+        <p><strong>Content:</strong> <%= message.content %></p>
+        <button class="reply-btn" data-message-id="<%= message.id %>">Reply</button>
+      </div>
+    <% end %>
+  </div>
+  <%= will_paginate @incoming_messages, param_name: 'incoming_page', renderer: BootstrapPagination::Rails %>
+</div>
+
+<div id="agent" class="tabcontent">
+  <div class="messages-container">
+    <% @agent_messages.each do |message| %>
+      <div class="message">
+        <p><strong>Customer ID:</strong> <%= message.customer_id %></p>
+        <p><strong>Timestamp:</strong> <%= message.timestamp %></p>
+        <p><strong>Content:</strong> <%= message.content %></p>
+        <p><strong>Agent Response:</strong> <%= message.agent_response %></p>
+      </div>
+    <% end %>
+  </div>
+  <%= will_paginate @agent_messages, param_name: 'agent_page', renderer: BootstrapPagination::Rails %>
+</div>
+
+
+
+  <div class="popup" id="reply-popup">
+    <div class="popup-content">
+      <span class="close-btn">&times;</span>
+      <h2>Reply to Message</h2>
+      <form id="reply-form">
+        <textarea id="response-text" placeholder="Write your response here"></textarea>
+        <input type="hidden" id="message-id">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <%= javascript_include_tag 'script' %> <!-- Include JavaScript -->
+  <script>
+    function openTab(evt, tabName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+
+    function searchMessages() {
+      var searchQuery = document.getElementById("search-input").value.toLowerCase(); 
+      var allMessages = document.querySelectorAll('.message'); 
+      
+      allMessages.forEach(function(message) {
+        var customerID = message.querySelector('p:nth-child(1)').innerText.toLowerCase(); 
+        var content = message.querySelector('p:nth-child(3)').innerText.toLowerCase();
+        
+        if (customerID.includes(searchQuery) || content.includes(searchQuery)) {
+          message.style.display = 'block'; 
+        } else {
+          message.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

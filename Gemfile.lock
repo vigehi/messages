@@ -72,6 +72,8 @@ GEM
     bindex (0.8.1)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
+    bootstrap_pagination (1.0.2)
+      will_paginate (>= 3.0.3)
     builder (3.2.4)
     capybara (3.39.2)
       addressable
@@ -202,6 +204,9 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    will_paginate (3.3.1)
+    will_paginate-bootstrap (1.0.2)
+      will_paginate (>= 3.0.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.12)
@@ -211,6 +216,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bootstrap_pagination
   capybara
   debug
   importmap-rails
@@ -224,6 +230,8 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+  will_paginate (~> 3.3)
+  will_paginate-bootstrap
 
 RUBY VERSION
    ruby 3.1.2p20
